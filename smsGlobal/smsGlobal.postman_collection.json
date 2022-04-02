@@ -1,0 +1,121 @@
+{
+	"info": {
+		"_postman_id": "96ffd7a3-da64-4568-af42-92979a202ff8",
+		"name": "smsGlobal",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/v2/group/",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let apiKey = 'ADD-YOUR-API-KEY-HERE';\r",
+							"let secretKey = 'ADD-YOUR-SECRET-KEY-HERE';\r",
+							"let ts = Math.floor(Date.now() / 1000);\r",
+							"let nonce = Math.floor((Math.random() * 10000000));\r",
+							"let urlRegex = /^((\\w+):)?(\\/\\/((\\w+)?(:(\\w+))?@)?([^\\/\\?:]+)(:(\\d+))?)?(\\/?([^\\/\\?#][^\\?#]*)?)?(\\?([^#]+))?(#(\\w*))?/;\r",
+							"let url = urlRegex.exec(request.url);\r",
+							"let auth = ts + '\\n' + nonce + '\\n' + request.method + '\\n' + url[11] + (typeof url[13] !== 'undefined' ? url[13] : '' ) + '\\n' + url[8] + '\\n' + (url[2] == 'http' ? 80 : 443) + '\\n' + '\\n';\r",
+							"let authHash = CryptoJS.enc.Base64.stringify(CryptoJS.HmacSHA256(auth, secretKey));\r",
+							"let authHeader = 'MAC id=\"' + apiKey + '\", ts=\"' + ts + '\", nonce=\"' + nonce + '\", mac=\"' + authHash + '\"';\r",
+							"pm.environment.set(\"authorization\", authHeader);\r",
+							"//console.log('authHash = ', authHash);\r",
+							"//console.log('authHeader = ', authHeader);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{authorization}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://api.smsglobal.com/v2/group",
+					"protocol": "https",
+					"host": [
+						"api",
+						"smsglobal",
+						"com"
+					],
+					"path": [
+						"v2",
+						"group"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/v2/group/",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let apiKey = 'ADD-YOUR-API-KEY-HERE';\r",
+							"let secretKey = 'ADD-YOUR-SECRET-KEY-HERE';\r",
+							"var ts = Math.floor(Date.now() / 1000);\r",
+							"let nonce = Math.floor((Math.random() * 10000000));\r",
+							"let urlRegex = /^((\\w+):)?(\\/\\/((\\w+)?(:(\\w+))?@)?([^\\/\\?:]+)(:(\\d+))?)?(\\/?([^\\/\\?#][^\\?#]*)?)?(\\?([^#]+))?(#(\\w*))?/;\r",
+							"let url = urlRegex.exec(request.url);\r",
+							"let auth = ts + '\\n' + nonce + '\\n' + request.method + '\\n' + url[11] + (typeof url[13] !== 'undefined' ? url[13] : '' ) + '\\n' + url[8] + '\\n' + (url[2] == 'http' ? 80 : 443) + '\\n' + '\\n';\r",
+							"let authHash = CryptoJS.enc.Base64.stringify(CryptoJS.HmacSHA256(auth, secretKey));\r",
+							"let authHeader = 'MAC id=\"' + apiKey + '\", ts=\"' + ts + '\", nonce=\"' + nonce + '\", mac=\"' + authHash + '\"';\r",
+							"pm.environment.set(\"authorization\", authHeader);\r",
+							"//console.log('authHash = ', authHash);\r",
+							"//console.log('authHeader = ', authHeader);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{authorization}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"myTestGroup\"\r\n}"
+				},
+				"url": {
+					"raw": "https://api.smsglobal.com/v2/group",
+					"protocol": "https",
+					"host": [
+						"api",
+						"smsglobal",
+						"com"
+					],
+					"path": [
+						"v2",
+						"group"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
