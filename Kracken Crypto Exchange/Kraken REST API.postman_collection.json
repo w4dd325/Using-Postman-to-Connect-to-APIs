@@ -1,0 +1,80 @@
+{
+	"info": {
+		"_postman_id": "6adb9aa8-cdd6-499e-bd2d-5a42b169c13e",
+		"name": "Kraken REST API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/0/private/GetWebSocketsToken",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"api_key = \"API PUBLIC KEY\"",
+							"api_secret = CryptoJS.enc.Base64.parse(\"API PRIVATE KEY\");",
+							"api_nonce = (Date.now() * 1000).toString();",
+							"api_endpoint = \"/0/private/GetWebSocketsToken\";",
+							"api_post = \"nonce=\" + api_nonce;",
+							"",
+							"api_sha256 = CryptoJS.SHA256(api_nonce + api_post);",
+							"api_sign = CryptoJS.algo.HMAC.create(CryptoJS.algo.SHA512, api_secret);",
+							"api_sign.update(api_endpoint, api_secret);",
+							"api_sign.update(api_sha256, api_secret);",
+							"api_sign = api_sign.finalize().toString(CryptoJS.enc.Base64);",
+							"",
+							"pm.globals.set(\"api_nonce\", api_nonce);",
+							"pm.globals.set(\"api_key\", api_key);",
+							"pm.globals.set(\"api_signature\", api_sign);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "API-Key",
+						"type": "text",
+						"value": "{{api_key}}"
+					},
+					{
+						"key": "API-Sign",
+						"type": "text",
+						"value": "{{api_signature}}"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "nonce",
+							"value": "{{api_nonce}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://api.kraken.com/0/private/GetWebSocketsToken",
+					"protocol": "https",
+					"host": [
+						"api",
+						"kraken",
+						"com"
+					],
+					"path": [
+						"0",
+						"private",
+						"GetWebSocketsToken"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
