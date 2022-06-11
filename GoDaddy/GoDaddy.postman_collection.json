@@ -1,0 +1,44 @@
+{
+	"info": {
+		"_postman_id": "13d65e65-e376-4c1b-bfa7-6f1e630ee491",
+		"name": "GoDaddy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18694725"
+	},
+	"item": [
+		{
+			"name": "GoDaddy",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "sso-key [API_KEY]:[API_SECRET]"
+					}
+				],
+				"url": {
+					"raw": "https://api.ote-godaddy.com/v1/domains/available?domain=example.guru",
+					"protocol": "https",
+					"host": [
+						"api",
+						"ote-godaddy",
+						"com"
+					],
+					"path": [
+						"v1",
+						"domains",
+						"available"
+					],
+					"query": [
+						{
+							"key": "domain",
+							"value": "example.guru"
+						}
+					]
+				},
+				"description": "[https://developer.godaddy.com/getstarted](https://developer.godaddy.com/getstarted)"
+			},
+			"response": []
+		}
+	]
+}
